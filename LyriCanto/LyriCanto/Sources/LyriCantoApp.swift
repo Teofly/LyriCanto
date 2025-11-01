@@ -2,8 +2,8 @@
 //  LyriCantoApp.swift
 //  LyriCanto
 //
-//  Created by LyriCanto Team
-//  Copyright © 2025 LyriCanto. All rights reserved.
+//  Main app entry point with AppState management
+//  Version 1.2.0 - Added AI Rime support
 //
 
 import SwiftUI
@@ -29,8 +29,8 @@ struct LyriCantoApp: App {
                     NSApplication.shared.orderFrontStandardAboutPanel(
                         options: [
                             .applicationName: "LyriCanto",
-                            .applicationVersion: "1.1.0",
-                            .version: "1.1.0",
+                            .applicationVersion: "1.2.0",
+                            .version: "1.2.0",
                             .credits: NSAttributedString(
                                 string: "© Teofly 2025 - All Rights Reserved\n\nProfessional music lyrics transcription and translation tool",
                                 attributes: [
@@ -46,13 +46,11 @@ struct LyriCantoApp: App {
             
             CommandGroup(after: .windowArrangement) {
                 // WindowGroup con id appaiono automaticamente nel menu Window
-                // Non serve fare nulla qui, macOS gestisce tutto
             }
             
             CommandGroup(replacing: .help) {
                 Button("Guida LyriCanto") {
                     // Le WindowGroup appaiono nel menu Window automaticamente
-                    // L'utente può aprirle da lì
                 }
                 .keyboardShortcut("?", modifiers: .command)
             }
@@ -78,48 +76,68 @@ struct LyriCantoApp: App {
     }
 }
 
-// MARK: - App State
+// MARK: - App State (Original + AI Rime Extensions)
 class AppState: ObservableObject {
     @Published var claudeApiKey: String = ""
     @Published var openaiApiKey: String = ""
     @Published var lastProjectPath: String?
     
+    // AI Rime: Provider preference
+    @Published var currentProvider: AIProvider = .claude
+    
+    private let providerPreferenceKey = "preferredAIProvider"
+    
     init() {
         loadAPIKeys()
+        loadProviderPreference()
     }
     
+    // MARK: - Load API Keys
     func loadAPIKeys() {
-        // Carica Claude API key
-        if let key = KeychainHelper.load(key: "CLAUDE_API_KEY") {
-            claudeApiKey = key
-        } else if let envKey = ProcessInfo.processInfo.environment["CLAUDE_API_KEY"] {
-            claudeApiKey = envKey
+        claudeApiKey = KeychainHelper.load(key: "claudeAPIKey") ?? ""
+        openaiApiKey = KeychainHelper.load(key: "openaiAPIKey") ?? ""
+    }
+    
+    // MARK: - Save API Keys
+    func saveClaudeAPIKey(_ apiKey: String) {
+        claudeApiKey = apiKey
+        if apiKey.isEmpty {
+            KeychainHelper.delete(key: "claudeAPIKey")
+        } else {
+            KeychainHelper.save(key: "claudeAPIKey", value: apiKey)
         }
-        
-        // Carica OpenAI API key
-        if let key = KeychainHelper.load(key: "OPENAI_API_KEY") {
-            openaiApiKey = key
-        } else if let envKey = ProcessInfo.processInfo.environment["OPENAI_API_KEY"] {
-            openaiApiKey = envKey
+    }
+    
+    func saveOpenAIAPIKey(_ apiKey: String) {
+        openaiApiKey = apiKey
+        if apiKey.isEmpty {
+            KeychainHelper.delete(key: "openaiAPIKey")
+        } else {
+            KeychainHelper.save(key: "openaiAPIKey", value: apiKey)
         }
     }
     
-    func saveClaudeAPIKey(_ key: String) {
-        claudeApiKey = key
-        KeychainHelper.save(key: "CLAUDE_API_KEY", value: key)
-    }
-    
-    func saveOpenAIAPIKey(_ key: String) {
-        openaiApiKey = key
-        KeychainHelper.save(key: "OPENAI_API_KEY", value: key)
-    }
-    
-    func getAPIKey(for provider: AIProvider) -> String {
+    // MARK: - Get API Key for Provider
+    func getAPIKey(for provider: AIProvider) -> String? {
         switch provider {
         case .claude:
-            return claudeApiKey
+            let key = KeychainHelper.load(key: "claudeAPIKey")
+            return key?.isEmpty == false ? key : nil
         case .openai:
-            return openaiApiKey
+            let key = KeychainHelper.load(key: "openaiAPIKey")
+            return key?.isEmpty == false ? key : nil
+        }
+    }
+    
+    // MARK: - Provider Preference
+    func saveProviderPreference() {
+        UserDefaults.standard.set(currentProvider.rawValue, forKey: providerPreferenceKey)
+    }
+    
+    private func loadProviderPreference() {
+        if let savedProvider = UserDefaults.standard.string(forKey: providerPreferenceKey),
+           let provider = AIProvider(rawValue: savedProvider) {
+            currentProvider = provider
         }
     }
 }

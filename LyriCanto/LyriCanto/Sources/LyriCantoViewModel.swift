@@ -817,6 +817,20 @@ class LyriCantoViewModel: ObservableObject {
         
         return content
     }
+    
+    // MARK: - Text Cleanup Functions
+func removeEmptyLinesFromOriginal() {
+    let lines = originalLyrics.components(separatedBy: .newlines)
+    let nonEmptyLines = lines.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+    originalLyrics = nonEmptyLines.joined(separator: "\n")
+}
+
+func removeEmptyLinesFromGenerated() {
+    guard let lyrics = generatedLyrics else { return }
+    let lines = lyrics.components(separatedBy: .newlines)
+    let nonEmptyLines = lines.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+    generatedLyrics = nonEmptyLines.joined(separator: "\n")
+}
 
 // MARK: - Fetch Lyrics from API
     func fetchLyricsFromAPI(apiKey: String) {

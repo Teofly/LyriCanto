@@ -2,34 +2,46 @@
 //  MainAppView.swift
 //  LyriCanto
 //
-//  Main app wrapper with tabs for different features
+//  Main app view with tab navigation
+//  Version 1.2.0 - Added AI Rime tab
 //
 
 import SwiftUI
 
 struct MainAppView: View {
     @EnvironmentObject var appState: AppState
+    @State private var selectedTab: Int = 0
     
     var body: some View {
-        TabView {
-            // Tab 1: Editor Testi (vista originale)
+        TabView(selection: $selectedTab) {
+            // Tab 1: Scarica Audio
+            YouTubeDownloaderView()
+                .tabItem {
+                    Label("Scarica Audio", systemImage: "play.circle")
+                }
+                .tag(0)
+
+            // Tab 2: Converti Audio
+            AudioConverterView()
+                .tabItem {
+                    Label("Converti Audio", systemImage: "waveform.circle")
+                }
+                .tag(1)
+                        
+             // Tab 3: Editor Testi
             ContentView()
                 .environmentObject(appState)
                 .tabItem {
                     Label("Editor Testi", systemImage: "text.book.closed")
                 }
+                .tag(2)
             
-            // Tab 2: Convertitore Audio
-            AudioConverterView()
+           // Tab 4: AI Rime & Assonanze ⭐ NUOVO
+            RhymeAIView()
                 .tabItem {
-                    Label("Converti Audio", systemImage: "waveform.circle")
+                    Label("AI Rime", systemImage: "music.note.list")
                 }
-            
-            // Tab 3: Download Audio da YouTube
-            YouTubeDownloaderView()
-                .tabItem {
-                    Label("Scarica Audio", systemImage: "play.circle")
-                }
+                .tag(3)
         }
         .frame(minWidth: 1000, minHeight: 700)
     }

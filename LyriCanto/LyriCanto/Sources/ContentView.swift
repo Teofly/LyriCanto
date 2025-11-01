@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var showingLicenseAlert = false
     @State private var showingStyleGuidelinesSheet = false
     @State private var originalLyricsHeight: CGFloat = 200
+    @State private var generatedLyricsHeight: CGFloat = 400  // ✅ AGGIUNTO
+    @State private var originalLyricsOutputHeight: CGFloat = 400  // ✅ AGGIUNTO
     
     // Collapse states for sections
     @State private var showAudioSection = true
@@ -58,13 +60,15 @@ struct ContentView: View {
             Button("Accetto e Procedi") {
                 viewModel.hasLicense = true
                 Task {
-                    await viewModel.generateLyrics(apiKey: appState.getAPIKey(for: viewModel.aiProvider))
+                    // ✅ FIX: Aggiunto ?? ""
+                    await viewModel.generateLyrics(apiKey: appState.getAPIKey(for: viewModel.aiProvider) ?? "")
                 }
             }
         } message: {
             Text("Dichiari di avere tutti i diritti necessari per utilizzare questo audio e questi testi? LyriCanto non è responsabile per violazioni di copyright.")
         }
         .sheet(isPresented: $showingStyleGuidelinesSheet) {
+            // ✅ FIX: Usa viewModel invece di guidelines
             StyleGuidelinesView(viewModel: viewModel)
         }
     }
@@ -72,6 +76,7 @@ struct ContentView: View {
     // MARK: - Header Section
     private var headerSection: some View {
         VStack(spacing: 12) {
+            // Prima riga: Titolo + Bottone
             HStack {
                 HStack(spacing: 4) {
                     Text("🎵 LyriCanto")
@@ -90,6 +95,7 @@ struct ContentView: View {
                 .buttonStyle(.bordered)
             }
             
+            // Seconda riga: Campi configurazione
             HStack(spacing: 16) {
                 // AI Provider
                 VStack(alignment: .leading, spacing: 4) {
@@ -145,6 +151,7 @@ struct ContentView: View {
                 Spacer()
             }
             
+            // Terza riga: Controlli generazione
             HStack(spacing: 20) {
                 // Phonetic Similarity Slider
                 VStack(alignment: .leading, spacing: 4) {
@@ -172,7 +179,8 @@ struct ContentView: View {
                         showingLicenseAlert = true
                     } else {
                         Task {
-                            await viewModel.generateLyrics(apiKey: appState.getAPIKey(for: viewModel.aiProvider))
+                            // ✅ FIX: Aggiunto ?? ""
+                            await viewModel.generateLyrics(apiKey: appState.getAPIKey(for: viewModel.aiProvider) ?? "")
                         }
                     }
                 }) {
@@ -292,7 +300,8 @@ struct ContentView: View {
             if viewModel.audioFileURL != nil {
                 Button {
                     Task {
-                        await viewModel.transcribeAudio(apiKey: appState.getAPIKey(for: .openai))
+                        // ✅ FIX: Aggiunto ?? ""
+                        await viewModel.transcribeAudio(apiKey: appState.getAPIKey(for: .openai) ?? "")
                     }
                 } label: {
                     HStack {
@@ -352,7 +361,8 @@ struct ContentView: View {
                     HStack {
                         Button(action: {
                             Task {
-                                await viewModel.fetchLyricsFromAPIAsync(apiKey: appState.getAPIKey(for: .openai))
+                                // ✅ FIX: Aggiunto ?? ""
+                                await viewModel.fetchLyricsFromAPIAsync(apiKey: appState.getAPIKey(for: .openai) ?? "")
                             }
                         }) {
                             HStack {
@@ -369,8 +379,6 @@ struct ContentView: View {
                         .help("Estrae automaticamente i testi da Genius e li incolla nell'editor")
                         
                         Button(action: {
-                            // Usa il selector per la dettatura di macOS
-                            // Stesso che viene chiamato dal menu Edit → Start Dictation
                             NSApplication.shared.sendAction(Selector(("startDictation:")), to: nil, from: nil)
                         }) {
                             Label("Dettatura", systemImage: "mic.fill")
@@ -570,13 +578,78 @@ struct ContentView: View {
             // Synchronized Text Views
             GeometryReader { geometry in
                 HStack(spacing: 0) {
-                    ScrollView {
-                        Text(viewModel.originalLyrics.isEmpty ? "Inserisci il testo originale..." : viewModel.originalLyrics)
-                            .font(.system(.body, design: .monospaced))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
+                  
+ScrollView {
+    VStack(alignment: .leading, spacing: 12) {
+        // Pulsante per azioni sul testo originale
+        HStack {
+            Button("🗑️ Elimina Righe Vuote") {
+                viewModel.removeEmptyLinesFromOriginal()
+            }
+            .buttonStyle(.bordered)
+            .disabled(viewModel.originalLyrics.isEmpty)
+            
+            Spacer()
+        }
+        .padding(.horizontal)
+        
+        Divider()
+        
+        // Editor di testo originale
+        VStack(alignment: .leading, spacing: 8) {
+            TextEditor(text: Binding(
+                get: { viewModel.originalLyrics.isEmpty ? "" : viewModel.originalLyrics },
+                set: { newValue in
+                    viewModel.originalLyrics = newValue
+                }
+            ))
+            .font(.system(.body, design: .monospaced))
+            .frame(height: originalLyricsOutputHeight)
+            .border(Color.gray.opacity(0.3))
+            .padding(.horizontal)
+            
+            // Resize handle per TextEditor
+            Rectangle()
+                .fill(Color.gray.opacity(0.3))
+                .frame(height: 4)
+                .cornerRadius(2)
+                .overlay(
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.6))
+                        .frame(width: 40, height: 3)
+                        .cornerRadius(1.5)
+                )
+                .padding(.horizontal)
+                .onHover { hovering in
+                    if hovering {
+                        NSCursor.resizeUpDown.push()
+                    } else {
+                        NSCursor.pop()
                     }
-                    .frame(width: geometry.size.width / 2)
+                }
+                .gesture(
+                    DragGesture()
+                        .onChanged { value in
+                            let newHeight = originalLyricsOutputHeight + value.translation.height
+                            originalLyricsOutputHeight = max(200, min(800, newHeight))
+                        }
+                )
+            
+            // Info righe
+            if !viewModel.originalLyrics.isEmpty {
+                HStack {
+                    Spacer()
+                    Text("\(viewModel.originalLyrics.components(separatedBy: .newlines).count) righe")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                }
+            }
+        }
+    }
+    .padding()
+}
+.frame(width: geometry.size.width / 2)
                     
                     Divider()
                     
@@ -588,7 +661,7 @@ struct ContentView: View {
                                     .foregroundColor(.secondary)
                             }
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        } else if let generated = viewModel.generatedLyrics {
+                        } else if viewModel.generatedLyrics != nil {
                             VStack(alignment: .leading, spacing: 12) {
                                 // Pulsante per passare alla modalità editing
                                 HStack {
@@ -607,7 +680,8 @@ struct ContentView: View {
                                         if !viewModel.selectedLineIDs.isEmpty {
                                             Button("🔄 Rigenera Selezionate (\(viewModel.selectedLineIDs.count))") {
                                                 Task {
-                                                    await viewModel.regenerateSelectedLines(apiKey: appState.getAPIKey(for: viewModel.aiProvider))
+                                                    // ✅ FIX: Aggiunto ?? ""
+                                                    await viewModel.regenerateSelectedLines(apiKey: appState.getAPIKey(for: viewModel.aiProvider) ?? "")
                                                 }
                                             }
                                             .buttonStyle(.borderedProminent)
@@ -648,8 +722,7 @@ struct ContentView: View {
                                                 .padding(.vertical, 4)
                                                 .padding(.horizontal, 8)
                                                 .background(
-                                                    viewModel.selectedLineIDs.contains(line.id) ?
-                                                    Color.blue.opacity(0.1) : Color.gray.opacity(0.05)
+                                                    viewModel.selectedLineIDs.contains(line.id) ? Color.blue.opacity(0.1) : Color.gray.opacity(0.05)
                                                 )
                                                 .cornerRadius(4)
                                                 .overlay(
@@ -661,12 +734,60 @@ struct ContentView: View {
                                         }
                                     }
                                 } else {
-                                    // Modalità visualizzazione normale
-                                    Text(generated)
+                                    // ✅ RIPRISTINATO: Editor di testo libero completamente editabile
+                                    VStack(alignment: .leading, spacing: 8) {
+                                        TextEditor(text: Binding(
+                                            get: { viewModel.generatedLyrics ?? "" },
+                                            set: { newValue in
+                                                viewModel.generatedLyrics = newValue
+                                            }
+                                        ))
                                         .font(.system(.body, design: .monospaced))
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .frame(height: generatedLyricsHeight)
+                                        .border(Color.gray.opacity(0.3))
+                                        .padding(.horizontal)
+                                        
+                                        // Resize handle per TextEditor
+                                        Rectangle()
+                                            .fill(Color.gray.opacity(0.3))
+                                            .frame(height: 4)
+                                            .cornerRadius(2)
+                                            .overlay(
+                                                Rectangle()
+                                                    .fill(Color.gray.opacity(0.6))
+                                                    .frame(width: 40, height: 3)
+                                                    .cornerRadius(1.5)
+                                            )
+                                            .padding(.horizontal)
+                                            .onHover { hovering in
+                                                if hovering {
+                                                    NSCursor.resizeUpDown.push()
+                                                } else {
+                                                    NSCursor.pop()
+                                                }
+                                            }
+                                            .gesture(
+                                                DragGesture()
+                                                    .onChanged { value in
+                                                        let newHeight = generatedLyricsHeight + value.translation.height
+                                                        generatedLyricsHeight = max(200, min(800, newHeight))
+                                                    }
+                                            )
+                                        
+                                        // Info righe
+                                        if let generated = viewModel.generatedLyrics {
+                                            HStack {
+                                                Spacer()
+                                                Text("\(generated.components(separatedBy: .newlines).count) righe")
+                                                    .font(.caption)
+                                                    .foregroundColor(.secondary)
+                                                    .padding(.horizontal)
+                                            }
+                                        }
+                                    }
                                 }
                                 
+                                // Score di compatibilità
                                 if let score = viewModel.compatibilityScore {
                                     Divider()
                                     HStack {
