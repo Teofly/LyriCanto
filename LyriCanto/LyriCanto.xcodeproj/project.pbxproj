@@ -7,84 +7,160 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		LyriCantoApp.swift in Sources = {isa = PBXBuildFile; };
-		ContentView.swift in Sources = {isa = PBXBuildFile; };
-		LyriCantoViewModel.swift in Sources = {isa = PBXBuildFile; };
-		ClaudeAPIClient.swift in Sources = {isa = PBXBuildFile; };
-		MetricsValidator.swift in Sources = {isa = PBXBuildFile; };
-		Exporters.swift in Sources = {isa = PBXBuildFile; };
-		Helpers.swift in Sources = {isa = PBXBuildFile; };
+		A1000001000000000000001 /* LyriCantoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000001000000000000001 /* LyriCantoApp.swift */; };
+		A1000002000000000000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000002000000000000002 /* ContentView.swift */; };
+		A1000003000000000000003 /* LyriCantoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000003000000000000003 /* LyriCantoViewModel.swift */; };
+		A1000004000000000000004 /* AIAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000004000000000000004 /* AIAPIClient.swift */; };
+		A1000005000000000000005 /* MetricsValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000005000000000000005 /* MetricsValidator.swift */; };
+		A1000006000000000000006 /* Exporters.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000006000000000000006 /* Exporters.swift */; };
+		A1000007000000000000007 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000007000000000000007 /* Helpers.swift */; };
+		A1000008000000000000008 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000008000000000000008 /* AboutView.swift */; };
+		A1000009000000000000009 /* AudioAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000009000000000000009 /* AudioAnalyzer.swift */; };
+		A1000010000000000000010 /* AudioConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000010000000000000010 /* AudioConverter.swift */; };
+		A1000011000000000000011 /* AudioConverterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000011000000000000011 /* AudioConverterView.swift */; };
+		A1000012000000000000012 /* AudioPlayerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000012000000000000012 /* AudioPlayerController.swift */; };
+		A1000013000000000000013 /* AudioPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000013000000000000013 /* AudioPlayerView.swift */; };
+		A1000014000000000000014 /* AudioTrimmer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000014000000000000014 /* AudioTrimmer.swift */; };
+		A1000015000000000000015 /* AudioTrimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000015000000000000015 /* AudioTrimmerView.swift */; };
+		A1000016000000000000016 /* ColorSchemeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000016000000000000016 /* ColorSchemeManager.swift */; };
+		A1000017000000000000017 /* ColorSchemeSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000017000000000000017 /* ColorSchemeSettingsView.swift */; };
+		A1000018000000000000018 /* GoogleMusicSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000018000000000000018 /* GoogleMusicSearch.swift */; };
+		A1000019000000000000019 /* MainAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000019000000000000019 /* MainAppView.swift */; };
+		A1000020000000000000020 /* MusicSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000020000000000000020 /* MusicSearchView.swift */; };
+		A1000021000000000000021 /* RhymeAIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000021000000000000021 /* RhymeAIView.swift */; };
+		A1000022000000000000022 /* RhymeAIViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000022000000000000022 /* RhymeAIViewModel.swift */; };
+		A1000023000000000000023 /* RhymeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000023000000000000023 /* RhymeModels.swift */; };
+		A1000024000000000000024 /* UserGuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000024000000000000024 /* UserGuideView.swift */; };
+		A1000025000000000000025 /* YouTubeDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000025000000000000025 /* YouTubeDownloader.swift */; };
+		A1000026000000000000026 /* YouTubeDownloaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000026000000000000026 /* YouTubeDownloaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		LyriCanto.app = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LyriCanto.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		LyriCantoApp.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyriCantoApp.swift; sourceTree = "<group>"; };
-		ContentView.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		LyriCantoViewModel.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyriCantoViewModel.swift; sourceTree = "<group>"; };
-		ClaudeAPIClient.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClaudeAPIClient.swift; sourceTree = "<group>"; };
-		MetricsValidator.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsValidator.swift; sourceTree = "<group>"; };
-		Exporters.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exporters.swift; sourceTree = "<group>"; };
-		Helpers.swift = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		Info.plist = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C1000001000000000000001 /* LyriCanto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LyriCanto.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B1000001000000000000001 /* LyriCantoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyriCantoApp.swift; sourceTree = "<group>"; };
+		B1000002000000000000002 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B1000003000000000000003 /* LyriCantoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyriCantoViewModel.swift; sourceTree = "<group>"; };
+		B1000004000000000000004 /* AIAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIAPIClient.swift; sourceTree = "<group>"; };
+		B1000005000000000000005 /* MetricsValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricsValidator.swift; sourceTree = "<group>"; };
+		B1000006000000000000006 /* Exporters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Exporters.swift; sourceTree = "<group>"; };
+		B1000007000000000000007 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		B1000008000000000000008 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
+		B1000009000000000000009 /* AudioAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioAnalyzer.swift; sourceTree = "<group>"; };
+		B1000010000000000000010 /* AudioConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioConverter.swift; sourceTree = "<group>"; };
+		B1000011000000000000011 /* AudioConverterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioConverterView.swift; sourceTree = "<group>"; };
+		B1000012000000000000012 /* AudioPlayerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerController.swift; sourceTree = "<group>"; };
+		B1000013000000000000013 /* AudioPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerView.swift; sourceTree = "<group>"; };
+		B1000014000000000000014 /* AudioTrimmer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrimmer.swift; sourceTree = "<group>"; };
+		B1000015000000000000015 /* AudioTrimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioTrimmerView.swift; sourceTree = "<group>"; };
+		B1000016000000000000016 /* ColorSchemeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeManager.swift; sourceTree = "<group>"; };
+		B1000017000000000000017 /* ColorSchemeSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeSettingsView.swift; sourceTree = "<group>"; };
+		B1000018000000000000018 /* GoogleMusicSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMusicSearch.swift; sourceTree = "<group>"; };
+		B1000019000000000000019 /* MainAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainAppView.swift; sourceTree = "<group>"; };
+		B1000020000000000000020 /* MusicSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicSearchView.swift; sourceTree = "<group>"; };
+		B1000021000000000000021 /* RhymeAIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhymeAIView.swift; sourceTree = "<group>"; };
+		B1000022000000000000022 /* RhymeAIViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhymeAIViewModel.swift; sourceTree = "<group>"; };
+		B1000023000000000000023 /* RhymeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RhymeModels.swift; sourceTree = "<group>"; };
+		B1000024000000000000024 /* UserGuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserGuideView.swift; sourceTree = "<group>"; };
+		B1000025000000000000025 /* YouTubeDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeDownloader.swift; sourceTree = "<group>"; };
+		B1000026000000000000026 /* YouTubeDownloaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeDownloaderView.swift; sourceTree = "<group>"; };
+		D1000001000000000000001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		E1000001000000000000001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
-		MainGroup = {
+		F1000001000000000000001 = {
 			isa = PBXGroup;
 			children = (
-				LyriCanto,
-				Products,
+				F1000002000000000000002 /* LyriCanto */,
+				F1000003000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		Products = {
+		F1000002000000000000002 /* LyriCanto */ = {
 			isa = PBXGroup;
 			children = (
-				LyriCanto.app,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		LyriCanto = {
-			isa = PBXGroup;
-			children = (
-				Sources,
-				Resources,
+				F1000004000000000000004 /* Sources */,
+				F1000005000000000000005 /* Resources */,
+				F1000006000000000000006 /* Prompts */,
 			);
 			path = LyriCanto;
 			sourceTree = "<group>";
 		};
-		Sources = {
+		F1000003000000000000003 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				LyriCantoApp.swift,
-				ContentView.swift,
-				LyriCantoViewModel.swift,
-				ClaudeAPIClient.swift,
-				MetricsValidator.swift,
-				Exporters.swift,
-				Helpers.swift,
+				C1000001000000000000001 /* LyriCanto.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F1000004000000000000004 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B1000001000000000000001 /* LyriCantoApp.swift */,
+				B1000002000000000000002 /* ContentView.swift */,
+				B1000003000000000000003 /* LyriCantoViewModel.swift */,
+				B1000004000000000000004 /* AIAPIClient.swift */,
+				B1000005000000000000005 /* MetricsValidator.swift */,
+				B1000006000000000000006 /* Exporters.swift */,
+				B1000007000000000000007 /* Helpers.swift */,
+				B1000008000000000000008 /* AboutView.swift */,
+				B1000009000000000000009 /* AudioAnalyzer.swift */,
+				B1000010000000000000010 /* AudioConverter.swift */,
+				B1000011000000000000011 /* AudioConverterView.swift */,
+				B1000012000000000000012 /* AudioPlayerController.swift */,
+				B1000013000000000000013 /* AudioPlayerView.swift */,
+				B1000014000000000000014 /* AudioTrimmer.swift */,
+				B1000015000000000000015 /* AudioTrimmerView.swift */,
+				B1000016000000000000016 /* ColorSchemeManager.swift */,
+				B1000017000000000000017 /* ColorSchemeSettingsView.swift */,
+				B1000018000000000000018 /* GoogleMusicSearch.swift */,
+				B1000019000000000000019 /* MainAppView.swift */,
+				B1000020000000000000020 /* MusicSearchView.swift */,
+				B1000021000000000000021 /* RhymeAIView.swift */,
+				B1000022000000000000022 /* RhymeAIViewModel.swift */,
+				B1000023000000000000023 /* RhymeModels.swift */,
+				B1000024000000000000024 /* UserGuideView.swift */,
+				B1000025000000000000025 /* YouTubeDownloader.swift */,
+				B1000026000000000000026 /* YouTubeDownloaderView.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
 		};
-		Resources = {
+		F1000005000000000000005 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				Info.plist,
+				D1000001000000000000001 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F1000006000000000000006 /* Prompts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Prompts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		LyriCanto = {
+		G1000001000000000000001 /* LyriCanto */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BuildConfigurationList;
+			buildConfigurationList = G1000002000000000000002 /* Build configuration list for PBXNativeTarget "LyriCanto" */;
 			buildPhases = (
-				Sources,
-				Resources,
+				H1000001000000000000001 /* Sources */,
+				E1000001000000000000001 /* Frameworks */,
+				I1000001000000000000001 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -92,63 +168,289 @@
 			);
 			name = LyriCanto;
 			productName = LyriCanto;
-			productReference = LyriCanto.app;
+			productReference = C1000001000000000000001 /* LyriCanto.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
+/* Begin PBXProject section */
+		J1000001000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					G1000001000000000000001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = J1000002000000000000002 /* Build configuration list for PBXProject "LyriCanto" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F1000001000000000000001;
+			productRefGroup = F1000003000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				G1000001000000000000001 /* LyriCanto */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		I1000001000000000000001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		H1000001000000000000001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001000000000000001 /* LyriCantoApp.swift in Sources */,
+				A1000002000000000000002 /* ContentView.swift in Sources */,
+				A1000003000000000000003 /* LyriCantoViewModel.swift in Sources */,
+				A1000004000000000000004 /* AIAPIClient.swift in Sources */,
+				A1000005000000000000005 /* MetricsValidator.swift in Sources */,
+				A1000006000000000000006 /* Exporters.swift in Sources */,
+				A1000007000000000000007 /* Helpers.swift in Sources */,
+				A1000008000000000000008 /* AboutView.swift in Sources */,
+				A1000009000000000000009 /* AudioAnalyzer.swift in Sources */,
+				A1000010000000000000010 /* AudioConverter.swift in Sources */,
+				A1000011000000000000011 /* AudioConverterView.swift in Sources */,
+				A1000012000000000000012 /* AudioPlayerController.swift in Sources */,
+				A1000013000000000000013 /* AudioPlayerView.swift in Sources */,
+				A1000014000000000000014 /* AudioTrimmer.swift in Sources */,
+				A1000015000000000000015 /* AudioTrimmerView.swift in Sources */,
+				A1000016000000000000016 /* ColorSchemeManager.swift in Sources */,
+				A1000017000000000000017 /* ColorSchemeSettingsView.swift in Sources */,
+				A1000018000000000000018 /* GoogleMusicSearch.swift in Sources */,
+				A1000019000000000000019 /* MainAppView.swift in Sources */,
+				A1000020000000000000020 /* MusicSearchView.swift in Sources */,
+				A1000021000000000000021 /* RhymeAIView.swift in Sources */,
+				A1000022000000000000022 /* RhymeAIViewModel.swift in Sources */,
+				A1000023000000000000023 /* RhymeModels.swift in Sources */,
+				A1000024000000000000024 /* UserGuideView.swift in Sources */,
+				A1000025000000000000025 /* YouTubeDownloader.swift in Sources */,
+				A1000026000000000000026 /* YouTubeDownloaderView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
 /* Begin XCBuildConfiguration section */
-		Debug = {
+		K1000001000000000000001 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		K1000002000000000000002 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		K1000003000000000000003 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = LyriCanto/Resources/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lyriforge.app;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lyriforge.lyricanto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
-		Release = {
+		K1000004000000000000004 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = LyriCanto/Resources/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.lyriforge.app;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.lyriforge.lyricanto;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
+/* Begin XCConfigurationList section */
+		J1000002000000000000002 /* Build configuration list for PBXProject "LyriCanto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				K1000001000000000000001 /* Debug */,
+				K1000002000000000000002 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		G1000002000000000000002 /* Build configuration list for PBXNativeTarget "LyriCanto" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				K1000003000000000000003 /* Debug */,
+				K1000004000000000000004 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
 	};
-	rootObject = ProjectObject;
+	rootObject = J1000001000000000000001 /* Project object */;
 }
