@@ -15,7 +15,6 @@ struct ContentView: View {
     @State private var showingStyleGuidelinesSheet = false
     @State private var originalLyricsHeight: CGFloat = 200
     @State private var generatedLyricsHeight: CGFloat = 400  // ✅ AGGIUNTO
-    @State private var originalLyricsOutputHeight: CGFloat = 400  // ✅ AGGIUNTO
     
     // Collapse states for sections
     @State private var showAudioSection = true
@@ -555,16 +554,8 @@ struct ContentView: View {
     // MARK: - Output Section
     private var outputSection: some View {
         VStack(spacing: 0) {
-            // Preview Headers
+            // Preview Header - Solo Testo Proposto
             HStack(spacing: 0) {
-                Text("Testo Originale")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.blue.opacity(0.1))
-                
-                Divider()
-                
                 Text("Testo Proposto")
                     .font(.headline)
                     .frame(maxWidth: .infinity)
@@ -575,85 +566,8 @@ struct ContentView: View {
             
             Divider()
             
-            // Synchronized Text Views
-            GeometryReader { geometry in
-                HStack(spacing: 0) {
-                  
-ScrollView {
-    VStack(alignment: .leading, spacing: 12) {
-        // Pulsante per azioni sul testo originale
-        HStack {
-            Button("🗑️ Elimina Righe Vuote") {
-                viewModel.removeEmptyLinesFromOriginal()
-            }
-            .buttonStyle(.bordered)
-            .disabled(viewModel.originalLyrics.isEmpty)
-            
-            Spacer()
-        }
-        .padding(.horizontal)
-        
-        Divider()
-        
-        // Editor di testo originale
-        VStack(alignment: .leading, spacing: 8) {
-            TextEditor(text: Binding(
-                get: { viewModel.originalLyrics.isEmpty ? "" : viewModel.originalLyrics },
-                set: { newValue in
-                    viewModel.originalLyrics = newValue
-                }
-            ))
-            .font(.system(.body, design: .monospaced))
-            .frame(height: originalLyricsOutputHeight)
-            .border(Color.gray.opacity(0.3))
-            .padding(.horizontal)
-            
-            // Resize handle per TextEditor
-            Rectangle()
-                .fill(Color.gray.opacity(0.3))
-                .frame(height: 4)
-                .cornerRadius(2)
-                .overlay(
-                    Rectangle()
-                        .fill(Color.gray.opacity(0.6))
-                        .frame(width: 40, height: 3)
-                        .cornerRadius(1.5)
-                )
-                .padding(.horizontal)
-                .onHover { hovering in
-                    if hovering {
-                        NSCursor.resizeUpDown.push()
-                    } else {
-                        NSCursor.pop()
-                    }
-                }
-                .gesture(
-                    DragGesture()
-                        .onChanged { value in
-                            let newHeight = originalLyricsOutputHeight + value.translation.height
-                            originalLyricsOutputHeight = max(200, min(800, newHeight))
-                        }
-                )
-            
-            // Info righe
-            if !viewModel.originalLyrics.isEmpty {
-                HStack {
-                    Spacer()
-                    Text("\(viewModel.originalLyrics.components(separatedBy: .newlines).count) righe")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
-                }
-            }
-        }
-    }
-    .padding()
-}
-.frame(width: geometry.size.width / 2)
-                    
-                    Divider()
-                    
-                    ScrollView {
+            // Testo Proposto a tutta larghezza
+            ScrollView {
                         if viewModel.isGenerating {
                             VStack {
                                 ProgressView()
@@ -816,9 +730,6 @@ ScrollView {
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
                     }
-                    .frame(width: geometry.size.width / 2)
-                }
-            }
             
             Divider()
             

@@ -117,7 +117,7 @@ class GoogleMusicSearch: ObservableObject {
         }
         
         var request = URLRequest(url: url)
-        request.setValue("LyriCanto/1.5.0 (contact@example.com)", forHTTPHeaderField: "User-Agent")
+        request.setValue("LyriCanto/1.2.0 (contact@example.com)", forHTTPHeaderField: "User-Agent")
         
         let (data, _) = try await URLSession.shared.data(for: request)
         let json = try JSONSerialization.jsonObject(with: data) as? [String: Any]

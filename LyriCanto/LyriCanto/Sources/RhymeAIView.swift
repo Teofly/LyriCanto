@@ -9,6 +9,7 @@
 import SwiftUI
 
 struct RhymeAIView: View {
+    @EnvironmentObject var colorManager: ColorSchemeManager
     @StateObject private var viewModel = RhymeAIViewModel()
     @EnvironmentObject var appState: AppState
     
@@ -123,7 +124,7 @@ struct RhymeAIView: View {
             }
         }
         .padding()
-        .background(Color(NSColor.controlBackgroundColor))
+        .background(Color(NSColor.windowBackgroundColor))
     }
     
     // MARK: - Configuration Panel (Left)
@@ -405,7 +406,7 @@ struct RhymeAIView: View {
             Spacer()
         }
         .padding()
-        .background(Color(NSColor.controlBackgroundColor))
+        .background(Color(NSColor.windowBackgroundColor))
     }
     
     // MARK: - Length Filter Tabs
@@ -525,7 +526,7 @@ if !match.examples.isEmpty {
 }
         }
         .padding()
-        .background(Color(NSColor.controlBackgroundColor))
+        .background(Color(NSColor.windowBackgroundColor))
         .cornerRadius(8)
         .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
     }
@@ -566,7 +567,7 @@ if !match.examples.isEmpty {
         }
         .padding(.horizontal)
         .padding(.vertical, 8)
-        .background(Color(NSColor.controlBackgroundColor))
+        .background(Color(NSColor.windowBackgroundColor))
     }
     
     // MARK: - Export Sheet
@@ -630,7 +631,7 @@ if !match.examples.isEmpty {
             } else {
                 ScrollView {
                     VStack(spacing: 8) {
-                        ForEach(viewModel.searchHistory) { item in
+                        ForEach(viewModel.searchHistory, id: \.id) { item in
                             Button(action: {
                                 viewModel.loadHistoryItem(item)
                                 viewModel.showHistory = false

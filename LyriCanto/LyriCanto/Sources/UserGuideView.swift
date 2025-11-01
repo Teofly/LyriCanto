@@ -3,6 +3,7 @@
 //  LyriCanto
 //
 //  Comprehensive user guide
+//  Version 1.2.0 - Added AI Rime section
 //
 
 import SwiftUI
@@ -15,6 +16,7 @@ struct UserGuideView: View {
         "Introduzione",
         "Importare Audio",
         "Player & Trimmer",
+        "🆕 AI Rime",
         "Ricerca Brani",
         "Inserire Testi",
         "Analisi Audio",
@@ -43,12 +45,13 @@ struct UserGuideView: View {
                     case 0: introSection
                     case 1: audioImportSection
                     case 2: playerTrimmerSection
-                    case 3: searchSection
-                    case 4: lyricsSection
-                    case 5: analysisSection
-                    case 6: generationSection
-                    case 7: exportSection
-                    case 8: colorSchemeSection
+                    case 3: rhymeAISection
+                    case 4: searchSection
+                    case 5: lyricsSection
+                    case 6: analysisSection
+                    case 7: generationSection
+                    case 8: exportSection
+                    case 9: colorSchemeSection
                     default: introSection
                     }
                 }
@@ -67,7 +70,7 @@ struct UserGuideView: View {
                 .font(.largeTitle)
                 .bold()
             
-            Text("Versione 1.5.0")
+            Text("Versione 1.2.0")
                 .font(.subheadline)
                 .foregroundColor(.secondary)
             
@@ -82,23 +85,32 @@ struct UserGuideView: View {
             mantenendo metrica, rime e struttura originale.
             
             **Funzionalità principali:**
-            • Audio Player con waveform
-            • Audio Trimmer per tagliare sezioni
-            • Ricerca brani su Google
-            • Trascrizione automatica (Whisper AI)
-            • Analisi BPM, tonalità e accordi
-            • Generazione testi AI (Claude & OpenAI)
-            • Export in 4 formati (TXT, LRC, SRT, JSON)
-            • Schemi colori personalizzabili
+            • 🎨 AI Rime - Assistente intelligente per ricerca rime (NUOVO v1.2.0!)
+            • 🎵 Audio Player con waveform
+            • ✂️ Audio Trimmer per tagliare sezioni
+            • 🔍 Ricerca brani su Google
+            • 🎤 Trascrizione automatica (Whisper AI)
+            • 🎚️ Analisi BPM, tonalità e accordi
+            • 🤖 Generazione testi AI (Claude & OpenAI)
+            • 💾 Export in 4 formati (TXT, LRC, SRT, JSON)
+            • 🎨 Schemi colori personalizzabili
             
             **Workflow consigliato:**
             1. Importa file audio
             2. Usa Player/Trimmer per ascoltare
             3. Cerca info brano online (opzionale)
             4. Trascrivi o inserisci testi originali
-            5. Analizza audio (BPM, tonalità)
-            6. Genera nuovi testi con AI
-            7. Esporta risultato
+            5. Usa AI Rime per trovare alternative (NUOVO!)
+            6. Analizza audio (BPM, tonalità)
+            7. Genera nuovi testi con AI
+            8. Esporta risultato
+            
+            **Novità v1.2.0:**
+            • 🎨 AI Rime: Trova rime, assonanze e alternative
+            • 🤖 Dual Provider: Scegli tra Claude e OpenAI
+            • 📚 Storico ricerche AI Rime
+            • 📊 Statistiche d'uso
+            • 🌍 6 lingue supportate (IT, EN, ES, FR, DE, PT)
             """)
             .font(.body)
         }
@@ -191,6 +203,93 @@ struct UserGuideView: View {
         }
     }
     
+    var rhymeAISection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("🎨 AI Rime (NUOVO v1.2.0)")
+                .font(.title2)
+                .bold()
+            
+            Text("""
+            **Cos'è AI Rime?**
+            
+            Un assistente intelligente che ti aiuta a trovare rime, assonanze e parole alternative \
+            per i tuoi testi usando Claude o OpenAI.
+            
+            **Come accedere:**
+            • Barra laterale → 🎨 AI Rime
+            
+            **Funzionalità principali:**
+            
+            1. **Ricerca Rime Intelligente**
+               • Inserisci una parola o un verso completo
+               • L'AI suggerisce rime perfette, imperfette e assonanze
+               • Ogni suggerimento include definizione e score di compatibilità
+            
+            2. **Multi-Lingua**
+               • Italiano 🇮🇹
+               • Inglese 🇬🇧
+               • Spagnolo 🇪🇸
+               • Francese 🇫🇷
+               • Tedesco 🇩🇪
+               • Portoghese 🇵🇹
+            
+            3. **Filtri Avanzati**
+               • Filtra per lunghezza parola (corte/medie/lunghe)
+               • Scegli tipo: solo rime, solo assonanze, o entrambe
+               • Numero risultati configurabile (10-50)
+               • Includi/escludi definizioni
+            
+            4. **Dual Provider**
+               • Scegli tra Claude (Anthropic) o OpenAI
+               • Claude: Più creativo, ottimo per testi poetici
+               • OpenAI: Più veloce, ottimo per testi pop
+            
+            5. **Storico Ricerche**
+               • Tutte le ricerche salvate automaticamente
+               • Visualizza, riesegui o elimina ricerche passate
+               • Click 📚 Storico per accedere
+            
+            6. **Statistiche**
+               • Totale ricerche effettuate
+               • Rime trovate
+               • Lingue più usate
+               • Provider preferito
+               • Click 📊 Statistiche per vedere
+            
+            **Esempio d'uso:**
+            
+            1. Scrivi "amore" nel campo input
+            2. Seleziona lingua: Italiano
+            3. Click "🔍 Cerca Rime"
+            4. Vedi risultati con score:
+               • cuore (9/10) 💙
+               • dolore (8/10) 😢
+               • splendore (7/10) ✨
+            5. Usa le parole nei tuoi testi!
+            
+            **Tips Pro:**
+            
+            💡 Usa il tipo "Verso" per cercare rime contestuali
+            💡 Combina con la riscrittura AI per risultati ottimali
+            💡 Prova entrambi i provider per variare i suggerimenti
+            💡 Usa i filtri per parole specifiche (es. solo corte per rap)
+            
+            **Shortcut:**
+            • ⏎ (Enter) = Cerca rime
+            • ⌘H = Apri storico
+            • ⌘I = Apri statistiche
+            
+            **Note:**
+            • Richiede API key configurata (Claude o OpenAI)
+            • Costo medio: ~€0.002-0.005 per ricerca
+            • Storico salvato solo localmente (privacy garantita)
+            
+            Per la guida completa, vedi: GUIDA_AI_RIME.md
+            """)
+            .font(.body)
+        }
+    }
+    
     var searchSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("🔍 Ricerca Brani")
@@ -253,25 +352,20 @@ struct UserGuideView: View {
                • Usa il TextEditor ridimensionabile
                • Trascina il bordo inferiore per espandere
             
-            3. **Dettatura vocale** 🎤
-               • Click sul pulsante "🎤 Dettatura"
-               • Parla chiaramente nel microfono
-               • macOS trascriverà le tue parole
-               • Utile per bozze veloci
+            3. **Cerca online**
+               • Click "Cerca Testi"
+               • Inserisci titolo e artista
+               • I testi vengono popolati automaticamente (se disponibili)
             
-            **Formattazione testi:**
-            • Una strofa per blocco
-            • Lascia righe vuote tra le sezioni
-            • Usa [Strofa], [Ritornello], [Ponte] per strutturare
+            **Strumenti editor:**
+            • 🗑️ Elimina righe vuote
+            • 🎤 Dettatura vocale (Fn Fn)
+            • ↔️ Ridimensiona editor
             
-            **Counter righe:**
-            Vedrai il numero di righe in basso a destra.
-            
-            **⚠️ Dichiarazione diritti:**
-            Prima di procedere, spunta la casella:
-            "✓ Dichiaro di avere i diritti/licenza per usare questo audio e questi testi"
-            
-            Questo è obbligatorio per la generazione AI.
+            **Tips:**
+            💡 Mantieni una riga vuota tra strofe per migliore struttura
+            💡 Usa la trascrizione Whisper se non hai i testi
+            💡 Correggi sempre eventuali errori prima di generare
             """)
             .font(.body)
         }
@@ -279,48 +373,66 @@ struct UserGuideView: View {
     
     var analysisSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("🔍 Analisi Audio")
+            Text("🔍 Analisi Audio & Metrica")
                 .font(.title2)
                 .bold()
             
+            Text("Analisi Audio Automatica")
+                .font(.headline)
+            
             Text("""
-            **Analisi BPM e Tonalità:**
+            Quando carichi un file audio, LyriCanto analizza automaticamente:
             
-            1. **Analisi automatica:**
-               • Click "🎵 Analizza Audio"
-               • Attendere elaborazione (30-60 secondi)
-               • Risultati popolati automaticamente
+            **BPM (Battute Per Minuto):**
+            • Rilevamento automatico del tempo
+            • Confidence score (affidabilità)
+            • Modificabile manualmente se necessario
             
-            2. **Risultati ottenuti:**
-               • **BPM** (Beats Per Minute)
-                 - Confidenza % mostrata
-                 - Verde (>70%) = alta confidenza
-                 - Arancio (<70%) = bassa confidenza
-               
-               • **Tonalità musicale**
-                 - Es: "C Major", "Am", "F# Minor"
-               
-               • **Scala**
-                 - Maggiore o Minore
-               
-               • **Accordi suggeriti**
-                 - I primi 4 accordi della progressione
-                 - Basati sulla tonalità rilevata
+            **Tonalità (Musical Key):**
+            • Chiave musicale rilevata (es: C Major, A Minor)
+            • Scala (Major/Minor)
+            • Utile per suggerire accordi compatibili
             
-            **Inserimento manuale:**
-            Puoi sempre inserire BPM manualmente se conosci il valore esatto.
+            **Accordi Suggeriti:**
+            • Lista accordi comuni per quella tonalità
+            • Basata su progressioni standard
+            • Utile per musicisti e compositori
+            """)
+            .font(.body)
             
-            **Sezioni temporali:**
-            • Click "Aggiungi Sezione" per definire parti del brano
-            • Imposta nome (es: "Intro", "Strofa 1", "Ritornello")
-            • Definisci Start Time e End Time (formato MM:SS)
-            • Utile per sincronizzare testi con timing
+            Divider()
             
-            **Analisi metrica:**
-            Click "Analizza Metrica" per un report su:
-            • Sillabe per riga
-            • Schema rime
-            • Pattern ritmici
+            Text("Analisi Metrica Testi")
+                .font(.headline)
+            
+            Text("""
+            **Click "Analizza Metrica" per:**
+            
+            1. **Conteggio Sillabe**
+               • Ogni riga viene analizzata
+               • Conteggio preciso per lingua selezionata
+               • Supporto regole italiane (sinalefe, etc.)
+            
+            2. **Schema di Rime**
+               • Rilevamento automatico (AABB, ABAB, ABBA, etc.)
+               • Evidenzia parole che rimano
+               • Utile per preservare struttura
+            
+            3. **Warnings**
+               • Irregolarità metriche
+               • Righe troppo lunghe/corte
+               • Suggerimenti miglioramento
+            
+            **Report generato include:**
+            • Sillabe per ogni riga
+            • Schema rime identificato
+            • Score compatibilità testo-musica
+            • Warnings e suggerimenti
+            
+            **Tips:**
+            💡 Analizza sempre prima di generare con AI
+            💡 Se score < 0.70, considera di rivedere i parametri
+            💡 Usa lo score come guida, non come regola assoluta
             """)
             .font(.body)
         }
@@ -333,51 +445,58 @@ struct UserGuideView: View {
                 .bold()
             
             Text("""
-            **Provider AI disponibili:**
-            • Claude Sonnet 4 (Anthropic)
-            • GPT-4 Turbo (OpenAI)
+            **Configurazione parametri:**
             
-            **Setup iniziale:**
-            1. Menu → Settings (⌘,)
-            2. Inserisci API key del provider scelto
-            3. Salva
+            1. **Lingua Target**
+               • IT, EN, ES, FR, DE, PT
+               • Lingua del testo riscritto
             
-            **Parametri di generazione:**
+            2. **Tema**
+               • Descrivi il nuovo tema in dettaglio
+               • Più specifico = risultati migliori
+               • Es: "viaggio a New York, libertà, grattacieli illuminati"
             
-            **1. Lingua target**
-               • Scegli lingua di destinazione (Italiano, Inglese, etc.)
+            3. **Similarità Fonetica (0.0-1.0)**
+               • 0.0-0.3: Creatività massima
+               • 0.4-0.6: Bilanciato (raccomandato)
+               • 0.7-1.0: Conservativo (simile a originale)
             
-            **2. Registro**
-               • Formale: linguaggio forbito
-               • Informale: colloquiale
-               • Poetico: artistico ed evocativo
+            4. **Preserva Rime**
+               • ON: Mantiene schema rime originale
+               • OFF: Libertà creativa maggiore
             
-            **3. Similarità fonetica** (0.0 - 1.0)
-               • 0.0 = nessuna similarità fonetica
-               • 1.0 = massima similarità sonora
-               • Consigliato: 0.6 - 0.8
+            5. **Provider AI (v1.2.0)**
+               • Claude: Più creativo, testi poetici
+               • OpenAI: Più veloce, testi pop
             
-            **4. Preserva schema rime**
-               • ✓ ON: mantiene pattern AABB, ABAB, etc.
-               • ✗ OFF: più libertà creativa
+            **Linee Guida Stile (Opzionali):**
+            
+            Click "Linee Guida Stile" per configurare:
+            • **Lessico**: poetico, tecnico, informale
+            • **Registro**: formale, neutrale, colloquiale
+            • **Tono**: umoristico, serio, romantico, nostalgico
+            • **Note custom**: Qualsiasi altra indicazione
             
             **Processo di generazione:**
-            1. Verifica che tutti i dati siano inseriti
-            2. Spunta checkbox diritti
-            3. Click "✨ Genera Testo"
-            4. Attendi 20-60 secondi
-            5. Testo appare a destra nell'editor
             
-            **Editing selettivo:**
-            • Seleziona righe specifiche nel testo generato
-            • Click "🔄 Rigenera Righe Selezionate"
-            • Solo quelle righe verranno rigenerate
-            • Perfetto per affinare dettagli
+            1. Click "Genera Testo"
+            2. Attendi elaborazione (10-60 secondi)
+            3. Vedi risultato nel pannello destro
+            4. Confronta con originale (side-by-side)
+            5. Controlla score di compatibilità
+            6. Se necessario, rigenera con parametri diversi
+            
+            **Score di Compatibilità:**
+            • 0.90-1.00: Eccellente ✅
+            • 0.80-0.89: Molto buono ✅
+            • 0.70-0.79: Buono ⚠️
+            • < 0.70: Da migliorare ❌
             
             **Tips:**
-            💡 Più alto il BPM, più corte le sillabe consigliate
-            💡 Usa Similarità fonetica alta per assonanze
-            💡 Prova diversi registri per trovare il tone giusto
+            💡 Prova entrambi i provider (Claude e OpenAI) per variare
+            💡 Se score basso, aumenta similarità fonetica
+            💡 Descrivi il tema in modo molto dettagliato
+            💡 Usa AI Rime per trovare alternative prima di generare
             """)
             .font(.body)
         }
@@ -390,7 +509,7 @@ struct UserGuideView: View {
                 .bold()
             
             Text("""
-            **Formati di export disponibili:**
+            **Formati disponibili:**
             
             **1. TXT (Testo semplice)**
             • Testi puri senza timing
@@ -411,6 +530,12 @@ struct UserGuideView: View {
             • Include: metadata, sezioni, timing, testi
             • Ideale per: app, database, analisi dati
             
+            **5. TXT Avanzato (v1.1.0+)**
+            • Report completo con comparazione riga per riga
+            • Include analisi musicale completa
+            • Metadata brano e artista
+            • Copyright Teofly 2025-2030
+            
             **Come esportare:**
             1. Scegli formato dal menu dropdown
             2. Click "💾 Esporta"
@@ -422,12 +547,13 @@ struct UserGuideView: View {
             • Metadata (artista, titolo, BPM, tonalità)
             • Sezioni (se definite)
             • Timestamp (per formati LRC/SRT)
+            • Score compatibilità
             
             **Tips:**
             💡 Usa LRC per sincronizzare con audio
             💡 Usa SRT per creare video con sottotitoli
             💡 Usa JSON per integrazioni custom
-            💡 Usa TXT per condivisione veloce
+            💡 Usa TXT Avanzato per report professionale
             """)
             .font(.body)
         }

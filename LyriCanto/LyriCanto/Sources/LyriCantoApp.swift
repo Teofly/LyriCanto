@@ -3,7 +3,7 @@
 //  LyriCanto
 //
 //  Main app entry point with AppState management
-//  Version 1.2.0 - Added AI Rime support
+//  Version 1.2.0 - Fixed window management to prevent crashes
 //
 
 import SwiftUI
@@ -15,8 +15,9 @@ struct LyriCantoApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainAppView()
+            ThemedAppView()
                 .environmentObject(appState)
+                .environmentObject(colorManager)
                 .frame(minWidth: 1200, minHeight: 800)
         }
         .commands {
@@ -44,13 +45,19 @@ struct LyriCantoApp: App {
                 }
             }
             
+            // Menu Window - Schema Colori
             CommandGroup(after: .windowArrangement) {
-                // WindowGroup con id appaiono automaticamente nel menu Window
+                Button("Schema Colori") {
+                    // Usa NotificationCenter per aprire la finestra in modo sicuro
+                    NotificationCenter.default.post(name: .openColorScheme, object: nil)
+                }
+                .keyboardShortcut("k", modifiers: [.command, .shift])
             }
             
             CommandGroup(replacing: .help) {
                 Button("Guida LyriCanto") {
-                    // Le WindowGroup appaiono nel menu Window automaticamente
+                    // Usa NotificationCenter per aprire la finestra in modo sicuro
+                    NotificationCenter.default.post(name: .openUserGuide, object: nil)
                 }
                 .keyboardShortcut("?", modifiers: .command)
             }
@@ -61,9 +68,10 @@ struct LyriCantoApp: App {
                 .environmentObject(appState)
         }
         
-        // Additional Windows
+        // Additional Windows - Gestite da SwiftUI (non manualmente!)
         WindowGroup("Schema Colori", id: "colorScheme") {
             ColorSchemeSettingsView()
+                .environmentObject(colorManager)
                 .frame(width: 400, height: 500)
         }
         .defaultSize(width: 400, height: 500)
@@ -76,7 +84,32 @@ struct LyriCantoApp: App {
     }
 }
 
-// MARK: - App State (Original + AI Rime Extensions)
+// MARK: - Notification Names
+extension Notification.Name {
+    static let openColorScheme = Notification.Name("openColorScheme")
+    static let openUserGuide = Notification.Name("openUserGuide")
+}
+
+// MARK: - Themed App View (Applica i colori)
+struct ThemedAppView: View {
+    @EnvironmentObject var colorManager: ColorSchemeManager
+    @Environment(\.openWindow) private var openWindow
+    
+    var body: some View {
+        MainAppView()
+            .background(colorManager.currentScheme.background.color)
+            .foregroundColor(colorManager.currentScheme.text.color)
+            .accentColor(colorManager.currentScheme.accent.color)
+            .onReceive(NotificationCenter.default.publisher(for: .openColorScheme)) { _ in
+                openWindow(id: "colorScheme")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .openUserGuide)) { _ in
+                openWindow(id: "userGuide")
+            }
+    }
+}
+
+// MARK: - App State (COMPLETO - con AI Rime Extensions)
 class AppState: ObservableObject {
     @Published var claudeApiKey: String = ""
     @Published var openaiApiKey: String = ""

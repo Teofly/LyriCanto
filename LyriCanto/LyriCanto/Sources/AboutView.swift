@@ -31,7 +31,7 @@ struct AboutView: View {
                 .font(.system(size: 32, weight: .bold))
             
             // Version
-            Text("Versione 1.5.0")
+            Text("Versione 1.2.0")
                 .font(.title3)
                 .foregroundColor(.secondary)
             

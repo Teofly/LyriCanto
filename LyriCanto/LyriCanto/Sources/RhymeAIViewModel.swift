@@ -4,6 +4,9 @@
 //
 //  ViewModel for AI Rhyme Search functionality
 //  Handles API calls, state management, and result processing
+//  
+//  🆕 VERSIONE MODIFICATA - Supporto per FRASI che rimano con numero sillabe simile
+//  Quando inputType=phrase e searchType=endingSimilar, restituisce FRASI COMPLETE
 //
 
 import Foundation
@@ -20,6 +23,7 @@ class RhymeAIViewModel: ObservableObject {
     @Published var language: RhymeLanguage = .italian
     @Published var maxResults: Int = 20
     @Published var includeDefinitions: Bool = false
+    @Published var exactEndingMatch: Bool = false
     
     // State
     @Published var isSearching: Bool = false
@@ -70,17 +74,25 @@ class RhymeAIViewModel: ObservableObject {
         apiClient.provider = provider
         
         do {
-            // Build search request
+            // Build search request with NEW parameters
             let request = RhymeSearchRequest(
                 inputText: inputText.trimmingCharacters(in: .whitespacesAndNewlines),
                 inputType: inputType,
                 searchType: searchType,
                 language: language,
                 maxResults: maxResults,
-                includeDefinitions: includeDefinitions
+                includeDefinitions: includeDefinitions,
+                exactEndingMatch: exactEndingMatch
             )
             
-            searchProgress = "Invio richiesta a \(provider.displayName)..."
+            // Show appropriate progress message
+            if request.inputType == .phrase && request.searchType == .endingSimilar {
+                searchProgress = "Cercando frasi che rimano con sillabe simili..."
+            } else if exactEndingMatch, let ending = request.last3Letters {
+                searchProgress = "Cercando parole che finiscono con '\(ending)'..."
+            } else {
+                searchProgress = "Invio richiesta a \(provider.displayName)..."
+            }
             
             // Call AI API
             let response = try await searchForRhymes(request: request, apiKey: apiKey)
@@ -90,16 +102,17 @@ class RhymeAIViewModel: ObservableObject {
             
             // Update statistics
             statistics.recordSearch(
-                matches: response.totalMatches,
-                searchType: searchType,
-                language: language
+                response: response,
+                exactEndingUsed: request.exactEndingMatch
             )
             
             // Add to history
             let historyItem = RhymeSearchHistoryItem(
                 searchText: request.inputText,
-                resultCount: response.totalMatches,
-                searchType: searchType
+                searchType: searchType,
+                language: language,
+                resultsCount: response.totalMatches,
+                exactEndingUsed: request.exactEndingMatch
             )
             searchHistory.insert(historyItem, at: 0)
             
@@ -109,6 +122,12 @@ class RhymeAIViewModel: ObservableObject {
             }
             
             searchProgress = "✅ Trovate \(response.totalMatches) corrispondenze!"
+            
+            // Auto-clear progress after 3 seconds
+            Task {
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                searchProgress = ""
+            }
             
         } catch {
             errorMessage = "Errore durante la ricerca: \(error.localizedDescription)"
@@ -153,38 +172,83 @@ class RhymeAIViewModel: ObservableObject {
         return parsedResponse
     }
     
-    // MARK: - Prompt Building
+    // MARK: - Prompt Building (🆕 COMPLETAMENTE AGGIORNATO)
     private func buildSearchPrompt(request: RhymeSearchRequest) -> String {
         let searchTypeInstruction: String
         
-        switch request.searchType {
-        case .phoneticSimilar:
+        // 🆕 NUOVA LOGICA: Gestione speciale per frasi con "finali simili"
+        if request.inputType == .phrase && request.searchType == .endingSimilar {
+            // Conta le sillabe approssimative della frase input
+            let approximateSyllables = countApproximateSyllables(request.inputText)
+            
             searchTypeInstruction = """
-            Trova parole con FONETICA SIMILE (assonanza, consonanza, allitterazione).
-            Focus su: suoni simili, stessa struttura consonantica/vocalica, ritmo simile.
+            🎯 MODALITÀ SPECIALE: FRASI CHE RIMANO
+            
+            Trova FRASI COMPLETE (non singole parole) che:
+            1. RIMANO con l'ultima parola della frase input
+            2. Hanno un numero di sillabe SIMILE alla frase input (±2 sillabe)
+            3. Hanno senso compiuto e sono utilizzabili in canzoni/poesie
+            
+            FRASE INPUT: "\(request.inputText)"
+            SILLABE APPROSSIMATIVE INPUT: \(approximateSyllables)
+            
+            TARGET: Frasi da \(max(approximateSyllables - 2, 6)) a \(approximateSyllables + 2) sillabe
+            
+            REQUISITI CRITICI:
+            - Restituisci SOLO frasi complete, NON singole parole
+            - Ogni frase deve fare RIMA con l'ultima parola della frase input
+            - Varia lo stile: poetiche, colloquiali, creative, narrative
+            - Le frasi devono avere senso logico e grammaticale
+            - Usa linguaggio naturale e fluido
+            
+            ESEMPI DI OUTPUT CORRETTO:
+            Se input è "andando per porti oscuri" (9 sillabe):
+            - "cercando i tuoi dolci furi" (8 sillabe) ✓
+            - "passando per luoghi sicuri" (9 sillabe) ✓
+            - "sognando tesori più puri" (8 sillabe) ✓
+            - "trovando orizzonti futuri" (10 sillabe) ✓
+            
+            ESEMPI DI OUTPUT SBAGLIATO:
+            - "furi" ✗ (singola parola, non frase)
+            - "oscuri" ✗ (singola parola, non frase)
+            - "andando per mari e monti felici" ✗ (non rima con "oscuri")
             """
-        case .endingSimilar:
-            searchTypeInstruction = """
-            Trova parole con FINALI SIMILI (rime perfette, rime imperfette, rime assonanti).
-            Focus su: ultime 2-4 lettere simili, stessa desinenza, suono finale identico.
-            """
-        case .both:
-            searchTypeInstruction = """
-            Trova parole sia con FONETICA SIMILE che con FINALI SIMILI.
-            Combina entrambi i criteri per risultati ottimali.
-            """
+        } else {
+            // Logica originale per parole singole
+            switch request.searchType {
+            case .phoneticSimilar:
+                searchTypeInstruction = """
+                Trova parole con FONETICA SIMILE (assonanza, consonanza, allitterazione).
+                Focus su: suoni simili, stessa struttura consonantica/vocalica, ritmo simile.
+                """
+            case .endingSimilar:
+                searchTypeInstruction = """
+                Trova parole con FINALI SIMILI (rime perfette, rime imperfette, rime assonanti).
+                Focus su: ultime 2-4 lettere simili, stessa desinenza, suono finale identico.
+                """
+            case .both:
+                searchTypeInstruction = """
+                Trova parole sia con FONETICA SIMILE che con FINALI SIMILI.
+                Combina entrambi i criteri per risultati ottimali.
+                """
+            }
         }
         
-        let inputTypeInstruction = request.inputType == .word
-            ? "Input: PAROLA SINGOLA"
-            : "Input: FRASE COMPLETA (trova parole che rimano con le parole chiave della frase)"
+        let inputTypeInstruction: String
+        if request.inputType == .phrase && request.searchType == .endingSimilar {
+            inputTypeInstruction = "Input: FRASE COMPLETA → Output: FRASI COMPLETE che rimano"
+        } else if request.inputType == .word {
+            inputTypeInstruction = "Input: PAROLA SINGOLA → Output: PAROLE che rimano"
+        } else {
+            inputTypeInstruction = "Input: FRASE COMPLETA → Output: PAROLE che rimano con le parole chiave"
+        }
         
         let definitionInstruction = request.includeDefinitions
-            ? "Includi una breve definizione (max 10 parole) per ogni parola."
+            ? "Includi una breve definizione/contesto (max 15 parole) per ogni risultato."
             : "NON includere definizioni."
         
-        return """
-        Sei un esperto linguista specializzato in fonetica e metrica della lingua \(request.language.displayName).
+        var prompt = """
+        Sei un esperto linguista e poeta specializzato in metrica della lingua \(request.language.displayName).
         
         COMPITO:
         \(searchTypeInstruction)
@@ -193,54 +257,147 @@ class RhymeAIViewModel: ObservableObject {
         INPUT: "\(request.inputText)"
         
         REQUISITI:
-        1. Trova ESATTAMENTE \(request.maxResults) parole diverse
-        2. Raggruppa per numero di sillabe (da 1 a 8+ sillabe)
-        3. Per ogni parola fornisci:
-           - La parola
-           - Numero di sillabe
-           - Punteggio similarità fonetica (0.0-1.0)
-           - Punteggio similarità finale (0.0-1.0)
-           \(request.includeDefinitions ? "- Breve definizione" : "")
-           - 1-2 esempi d'uso in frasi brevi
-        4. \(definitionInstruction)
-        5. Ordina per qualità (score più alto prima)
+        1. Trova ESATTAMENTE \(request.maxResults) risultati diversi
+        2. Raggruppa per numero di sillabe (conta attentamente!)
+        3. Valuta similarità fonetica (0.0 - 1.0)
+        4. Valuta similarità finale (0.0 - 1.0)
+        5. \(definitionInstruction)
+        6. Fornisci 2-3 esempi d'uso contestuali
+        """
         
-        FORMATO OUTPUT RICHIESTO (JSON):
-        {
-          "results_by_length": [
+        // Istruzione per exact ending se attivo
+        if request.exactEndingMatch, let ending = request.last3Letters {
+            prompt += """
+            
+            
+            ⚠️ FILTRO OBBLIGATORIO - ENDING ESATTO ⚠️
+            Restituisci SOLAMENTE risultati che finiscono esattamente con: '\(ending)'
+            Questo requisito è CRITICO e non può essere ignorato.
+            """
+        }
+        
+        // Istruzione per traduzioni se non è italiano
+        if request.language != .italian {
+            prompt += """
+            
+            
+            📝 TRADUZIONI IN ITALIANO
+            Per OGNI risultato, fornisci la traduzione in italiano nel campo 'italian_translation'.
+            """
+        }
+        
+        // 🆕 Formato JSON diverso per frasi vs parole
+        var jsonExample: String
+        if request.inputType == .phrase && request.searchType == .endingSimilar {
+            jsonExample = """
+            
+            
+            FORMATO RISPOSTA (SOLO JSON VALIDO, NESSUN TESTO EXTRA):
             {
-              "syllable_count": 2,
-              "matches": [
+              "results_by_length": [
                 {
-                  "word": "esempio",
-                  "syllable_count": 2,
-                  "phonetic_similarity": 0.85,
-                  "ending_similarity": 0.92,
-                  "definition": \(request.includeDefinitions ? "\"modello da seguire\"" : "null"),
-                  "examples": ["Un esempio chiaro", "Segui questo esempio"]
+                  "syllable_count": 8,
+                  "matches": [
+                    {
+                      "word": "cercando i tuoi dolci furi",
+                      "syllable_count": 8,
+                      "phonetic_similarity": 0.85,
+                      "ending_similarity": 0.95,
+                      "definition": "Frase che esprime ricerca di momenti rubati",
+                      "examples": [
+                        "Uso in strofa: Cercando i tuoi dolci furi, nella notte senza paure",
+                        "Perfetta per tema romantico/nostalgico"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "syllable_count": 9,
+                  "matches": [
+                    {
+                      "word": "passando per luoghi sicuri",
+                      "syllable_count": 9,
+                      "phonetic_similarity": 0.80,
+                      "ending_similarity": 0.90,
+                      "definition": "Frase che descrive un percorso protetto",
+                      "examples": [
+                        "Uso narrativo: Passando per luoghi sicuri, evitando i pericoli",
+                        "Adatta per testi di viaggio/avventura"
+                      ]
+                    }
+                  ]
                 }
               ]
             }
-          ]
+            
+            IMPORTANTE: Il campo "word" contiene la FRASE COMPLETA, non una parola singola!
+            """
+        } else {
+            jsonExample = """
+            
+            
+            FORMATO RISPOSTA (SOLO JSON VALIDO, NESSUN TESTO EXTRA):
+            {
+              "results_by_length": [
+                {
+                  "syllable_count": 2,
+                  "matches": [
+                    {
+                      "word": "parola",
+                      "syllable_count": 2,
+                      "phonetic_similarity": 0.85,
+                      "ending_similarity": 0.90,
+                      "definition": "breve definizione",
+                      "examples": ["esempio 1", "esempio 2"]
+            """
+            
+            if request.language != .italian {
+                jsonExample += """
+,
+                      "italian_translation": "traduzione"
+"""
+            }
+            
+            jsonExample += """
+
+                    }
+                  ]
+                }
+              ]
+            }
+"""
         }
         
-        IMPORTANTE:
-        - Output SOLO JSON valido, nessun altro testo
-        - Punteggi realistici basati su analisi fonetica vera
-        - Parole esistenti e corrette in \(request.language.displayName)
-        - Varietà di risultati (non solo varianti della stessa radice)
+        prompt += """
+        \(jsonExample)
         
-        Inizia ora la ricerca per: "\(request.inputText)"
+        ⚠️ CRITICO: Rispondi SOLO con il JSON, senza alcun testo aggiuntivo prima o dopo.
         """
+        
+        return prompt
     }
     
-    // MARK: - Response Parsing
-    private func parseAIResponse(
-        response: [String: Any],
-        originalRequest: RhymeSearchRequest
-    ) throws -> RhymeSearchResponse {
-        // Extract text from AI response
-        let responseText: String
+    // 🆕 NUOVA FUNZIONE: Conta sillabe approssimative
+    private func countApproximateSyllables(_ text: String) -> Int {
+        let vowels = CharacterSet(charactersIn: "aeiouàèéìòùAEIOUÀÈÉÌÒÙ")
+        var count = 0
+        var previousWasVowel = false
+        
+        for char in text.unicodeScalars {
+            let isVowel = vowels.contains(char)
+            if isVowel && !previousWasVowel {
+                count += 1
+            }
+            previousWasVowel = isVowel
+        }
+        
+        return max(count, 1) // Minimo 1 sillaba
+    }
+    
+    // MARK: - Response Parsing (invariato)
+    private func parseAIResponse(response: [String: Any], originalRequest: RhymeSearchRequest) throws -> RhymeSearchResponse {
+        // Extract text content based on provider
+        var responseText: String
         
         switch apiClient.provider {
         case .claude:
@@ -307,6 +464,7 @@ class RhymeAIViewModel: ObservableObject {
                 
                 let definition = matchDict["definition"] as? String
                 let examples = matchDict["examples"] as? [String] ?? []
+                let italianTranslation = matchDict["italian_translation"] as? String
                 
                 let match = RhymeMatch(
                     word: word,
@@ -314,7 +472,8 @@ class RhymeAIViewModel: ObservableObject {
                     phoneticSimilarity: phonetic,
                     endingSimilarity: ending,
                     definition: definition,
-                    examples: examples
+                    examples: examples,
+                    italianTranslation: italianTranslation
                 )
                 
                 matches.append(match)
@@ -335,7 +494,7 @@ class RhymeAIViewModel: ObservableObject {
         // Extract token usage if available
         let tokensUsed = extractTokenUsage(from: response)
         
-        return RhymeSearchResponse(
+        var finalResponse = RhymeSearchResponse(
             originalInput: originalRequest.inputText,
             searchType: originalRequest.searchType,
             language: originalRequest.language,
@@ -343,6 +502,13 @@ class RhymeAIViewModel: ObservableObject {
             processingTime: processingTime,
             tokensUsed: tokensUsed
         )
+        
+        // Applica filtro exact ending se richiesto
+        if originalRequest.exactEndingMatch {
+            finalResponse = finalResponse.filtered(byExactEnding: originalRequest.last3Letters)
+        }
+        
+        return finalResponse
     }
     
     private func extractTokenUsage(from response: [String: Any]) -> Int? {
@@ -362,7 +528,7 @@ class RhymeAIViewModel: ObservableObject {
         return nil
     }
     
-    // MARK: - Export Functions
+    // MARK: - Export Functions (invariati)
     func exportResults(format: String = "txt") -> String {
         guard currentResponse != nil else { return "" }
         
@@ -389,6 +555,15 @@ class RhymeAIViewModel: ObservableObject {
         TIPO RICERCA: \(response.searchType.rawValue)
         LINGUA: \(response.language.displayName)
         DATA: \(Date().formatted(date: .long, time: .shortened))
+        """
+        
+        if exactEndingMatch, inputText.count >= 3 {
+            let ending = String(inputText.suffix(3))
+            output += "\nFILTRO ATTIVO: Solo terminazioni '\(ending)'"
+        }
+        
+        output += """
+        
         
         ═══════════════════════════════════════════════════════════════
         STATISTICHE
@@ -416,6 +591,10 @@ class RhymeAIViewModel: ObservableObject {
                 
                 if let definition = match.definition {
                     output += "    Def: \(definition)\n"
+                }
+                
+                if let translation = match.italianTranslation {
+                    output += "    IT: \(translation)\n"
                 }
                 
                 if !match.examples.isEmpty {
@@ -447,6 +626,15 @@ class RhymeAIViewModel: ObservableObject {
         **Tipo ricerca:** \(response.searchType.rawValue)  
         **Lingua:** \(response.language.displayName)  
         **Data:** \(Date().formatted(date: .long, time: .shortened))
+        """
+        
+        if exactEndingMatch, inputText.count >= 3 {
+            let ending = String(inputText.suffix(3))
+            output += "\n**Filtro Attivo:** Solo terminazioni '\(ending)'"
+        }
+        
+        output += """
+        
         
         ---
         
@@ -475,6 +663,10 @@ class RhymeAIViewModel: ObservableObject {
                     output += "- Definizione: *\(definition)*\n"
                 }
                 
+                if let translation = match.italianTranslation {
+                    output += "- Traduzione IT: **\(translation)**\n"
+                }
+                
                 if !match.examples.isEmpty {
                     output += "- Esempi:\n"
                     for example in match.examples {
@@ -500,7 +692,8 @@ class RhymeAIViewModel: ObservableObject {
                 searchType: response.searchType,
                 language: response.language,
                 maxResults: maxResults,
-                includeDefinitions: includeDefinitions
+                includeDefinitions: includeDefinitions,
+                exactEndingMatch: exactEndingMatch
             ),
             searchResponse: response,
             exportFormat: "json"
@@ -532,5 +725,7 @@ class RhymeAIViewModel: ObservableObject {
     func loadHistoryItem(_ item: RhymeSearchHistoryItem) {
         inputText = item.searchText
         searchType = item.searchType
+        language = item.language
+        exactEndingMatch = item.exactEndingUsed
     }
 }
